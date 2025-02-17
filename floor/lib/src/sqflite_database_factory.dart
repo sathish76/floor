@@ -25,7 +25,13 @@ final DatabaseFactory sqfliteDatabaseFactory = () {
 
 extension DatabaseFactoryExtension on DatabaseFactory {
   Future<String> getDatabasePath(final String name) async {
-    final databasesPath = await this.getDatabasesPath();
-    return join(databasesPath, name);
+    try {
+      final databasesPath = await this.getDatabasesPath();
+      print('databasesPath $databasesPath');
+      return join(databasesPath, name);
+    } on Exception catch (e) {
+      print('Error getting database path: $e');
+    }
+    return '/';
   }
 }
